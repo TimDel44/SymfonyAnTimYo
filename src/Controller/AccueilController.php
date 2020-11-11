@@ -10,14 +10,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccueilController extends AbstractController
 {
     /**
-     * @Route("/", name="accueil")
+     * @Route("/", name="personne")
      */
     public function index(): Response
     {
         $repo = $this->getDoctrine()->getRepository(Personne::class);
 
         $personne = $repo->findAll();
-        return $this->render('accueil/index.html.twig', [
+        return $this->render('personne/index.html.twig', [
             'Personne' => $personne,
         ]);
     }

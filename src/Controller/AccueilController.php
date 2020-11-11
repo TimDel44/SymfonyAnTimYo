@@ -12,15 +12,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccueilController extends AbstractController
 {
     /**
-     * @Route("/", name="accueil")
+     * @Route("/", name="personne")
      */
     public function index(): Response
     {
         $repo = $this->getDoctrine()->getRepository(Personne::class);
 
         $personne = $repo->findAll();
-        return $this->render('accueil/index.html.twig', [
-            'personne' => $personne,
+        return $this->render('personne/index.html.twig', [
+            'Personne' => $personne,
         ]);
     }
     /**
@@ -38,7 +38,7 @@ class AccueilController extends AbstractController
             $em->persist($personne);
             $em->flush();
 
-            return $this->render("personnes");
+            return $this->redirectToRoute("personne");
         }
         return $this->render("personne/ajouter.html.twig", ["formulaire" => $form->createView()]);
     }

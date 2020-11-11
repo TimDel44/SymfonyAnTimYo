@@ -1,0 +1,57 @@
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Hello AccueilController!{% endblock %}#}
+
+{#{% block body %}#}
+{#<style>#}
+{#    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }#}
+{#    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }#}
+{#</style>#}
+
+{#<h1>#}
+{#    ceci est un test#}
+{#    <i class="fad fa-joint"></i>#}
+{#</h1>#}
+{#{% endblock %}#}
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur antimyo{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
+
+    <h1>Antimyo de la soirée *insérez nom de soirée*<i class="fad fa-joint"></i></h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">prenom</th>
+            <th scope="col">nom</th>
+            <th scope="col">solde</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key, p in Personne %}
+            <tr>
+                <th scope="row">{{ key+1 }}</th>
+                <td>{{ p.prenom }}</td>
+                <td>{{ p.nom }}</td>
+                <td>{{ p.solde }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-outline-primary" href="{{ path("personne_ajouter") }}">Ajouter une personne</a>
+{% endblock %}

@@ -20,7 +20,7 @@ class AccueilController extends AbstractController
 
         $personne = $repo->findAll();
         return $this->render('accueil/index.html.twig', [
-            'accueil' => $personne,
+            'personne' => $personne,
         ]);
     }
     /**

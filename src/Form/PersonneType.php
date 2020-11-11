@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Personne;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +17,7 @@ class PersonneType extends AbstractType
 
             ->add('prenom')
             ->add('nom')
-            ->add('solde')
+            ->add('solde', MoneyType::class )
             ->add('ok', SubmitType::class, ['label'=>'Enregistrer'])
         ;
     }

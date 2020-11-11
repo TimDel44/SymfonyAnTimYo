@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Personne;
+use App\Form\PersonneType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,5 +22,24 @@ class AccueilController extends AbstractController
         return $this->render('accueil/index.html.twig', [
             'accueil' => $personne,
         ]);
+    }
+    /**
+     * @Route("/personne/ajouter",name="personne_ajouter")
+     */
+    public function ajouter(Request $request){
+
+        $personne = new Personne();
+
+        $form = $this->createForm(PersonneType::class, $personne);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($personne);
+            $em->flush();
+
+            return $this->render("personnes");
+        }
+        return $this->render("personne/ajouter.html.twig", ["formulaire" => $form->createView()]);
     }
 }

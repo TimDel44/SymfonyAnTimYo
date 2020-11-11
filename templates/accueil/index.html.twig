@@ -28,9 +28,9 @@
         </tr>
         </thead>
         <tbody>
-        {% for p in Personne %}
+        {% for key, p in Personne %}
             <tr>
-                <th scope="row">p</th>
+                <th scope="row">{{ key+1 }}</th>
                 <td>{{ p.prenom }}</td>
                 <td>{{ p.nom }}</td>
                 <td>{{ p.solde }}</td>
@@ -38,5 +38,5 @@
         {% endfor %}
         </tbody>
     </table>
-    <button type="button" class="btn btn-outline-primary">ajouter une personne</button>
+    <a class="btn btn-outline-primary" href="">ajouter une personne</a>
 {% endblock %}

@@ -26,6 +26,7 @@
             <th scope="col">nom</th>
             <th scope="col">solde</th>
             <th scope="col">actions</th>
+
         </tr>
         </thead>
         <tbody>
@@ -35,11 +36,15 @@
                 <td>{{ p.prenom }}</td>
                 <td>{{ p.nom }}</td>
                 <td>{{ p.solde }}</td>
+
                 <td><a class="btn btn-sm btn-warning" href="{{ path("personne_modifier", {"id":p.id}) }}">Editer</a>
                     <a class="btn btn-sm btn-danger" href="{{ path("personne_supprimer", {"id":p.id}) }}" onclick="return confirm('Êtes-vous sûr ?')">supprimer</a></td>
+
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    <h1>prix total de la soirée {{ Resultat }}</h1>
+    <a class="btn btn-outline-primary" href="">ajouter une personne</a>
     <a class="btn btn-outline-primary" href="{{ path("personne_ajouter") }}">Ajouter une personne</a>
 {% endblock %}

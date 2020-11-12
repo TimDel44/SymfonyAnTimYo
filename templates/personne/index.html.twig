@@ -22,10 +22,10 @@
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">prenom</th>
-            <th scope="col">nom</th>
-            <th scope="col">solde</th>
-            <th scope="col">actions</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Dépenses</th>
+            <th scope="col">Actions</th>
 
         </tr>
         </thead>
@@ -44,7 +44,21 @@
         {% endfor %}
         </tbody>
     </table>
-    <h1>prix total de la soirée {{ Resultat }}</h1>
-    <a class="btn btn-outline-primary" href="">ajouter une personne</a>
+    <h1>Prix total de la soirée : {{ Resultat }} €</h1>
+    <h2>Moyenne par personne : {{ moyenne }}€</h2>
+    <h2>Mouvements à effectuer :</h2>
+    {% if Resultat == 0 %}
+        Aucun <br>
+    {% endif %}
+
+    {% for t in Tableau %}
+        {% if t.solde == moyenne %}
+            {{ t.prenom }} {{ t.nom }} n'a pas besoin de payer.
+        {% elseif t.solde > moyenne %}
+            {{ t.prenom }} {{ t.nom }} doit être remboursé de {{ t.rembours }}€
+        {% else %}
+            {{ t.prenom }} {{ t.nom }} doit payer {{ t.dette }}€
+        {% endif %}<br>
+    {% endfor %}
     <a class="btn btn-outline-primary" href="{{ path("personne_ajouter") }}">Ajouter une personne</a>
 {% endblock %}

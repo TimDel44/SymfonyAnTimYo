@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Count;
 
 class AccueilController extends AbstractController
 {
@@ -29,10 +30,39 @@ class AccueilController extends AbstractController
             ->getQuery()
             ->getSingleScalarResult();
 
+        $nbpersonnes = $repo->createQueryBuilder('m')
+            ->Select('COUNT(m.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        $tab = array();
+
+        if ($nbpersonnes!=0){
+            $moyenne = $sum/$nbpersonnes;
+            foreach ($personne as $id => $p){
+                $solde = $p -> getSolde();
+                $tab[$id] = array(
+                    'prenom' => $p -> getPrenom(),
+                    'nom' => $p ->getNom(),
+                    'solde' => $p ->getSolde(),
+                    'dette' => $moyenne-$solde,
+                    'rembours' => $solde-$moyenne,
+
+                );
+            }
+        }
+        else {
+            $sum=0;
+            $moyenne=0;
+        }
+
+
+
+
         return $this->render('personne/index.html.twig', [
             'Personne' => $personne,
             'Resultat' => $sum,
-
+            'moyenne' => $moyenne,
+            'Tableau' => $tab,
         ]);
     }
     /**

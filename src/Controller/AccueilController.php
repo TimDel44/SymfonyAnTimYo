@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccueilController extends AbstractController
 {
     /**
-     * @Route("/", name="accueil")
+     * @Route("/", name="personne")
      */
     public function index(): Response
     {
@@ -25,7 +25,7 @@ class AccueilController extends AbstractController
             //->From('personne')
             ->getQuery()
             ->getSingleScalarResult();
-        return $this->render('accueil/index.html.twig', [
+        return $this->render('personne/index.html.twig', [
             'Personne' => $personne,
             'Resultat' => $sum,
 

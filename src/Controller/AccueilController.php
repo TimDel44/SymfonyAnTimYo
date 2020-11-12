@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Personne;
+use ContainerFo4qxhk\getDoctrine_Orm_DefaultEntityManager_PropertyInfoExtractorService;
+use phpDocumentor\Reflection\Types\AggregatedType;
 use App\Form\PersonneSupprimerType;
 use App\Form\PersonneType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,8 +22,17 @@ class AccueilController extends AbstractController
         $repo = $this->getDoctrine()->getRepository(Personne::class);
 
         $personne = $repo->findAll();
+
+        $sum= $repo->createQueryBuilder('m')
+            ->Select('SUM(m.solde)')
+            //->From('personne')
+            ->getQuery()
+            ->getSingleScalarResult();
+
         return $this->render('personne/index.html.twig', [
             'Personne' => $personne,
+            'Resultat' => $sum,
+
         ]);
     }
     /**

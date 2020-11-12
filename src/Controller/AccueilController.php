@@ -42,4 +42,26 @@ class AccueilController extends AbstractController
         }
         return $this->render("personne/ajouter.html.twig", ["formulaire" => $form->createView()]);
     }
+
+    /**
+     * @Route("/personne/modifier/{id}",name="personne_modifier")
+     */
+    public function modifier($id, Request $request){
+
+        $repo = $this->getDoctrine()->getRepository(Personne::class);
+        $personne = $repo->find($id);
+
+        $form = $this->createForm(PersonneType::class, $personne);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($personne);
+            $em->flush();
+
+            return $this->redirectToRoute("personne");
+        }
+        return $this->render("personne/modifier.html.twig", ["formulaire" => $form->createView()]);
+    }
 }

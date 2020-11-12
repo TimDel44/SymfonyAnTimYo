@@ -12,6 +12,7 @@
     {% endblock %}
 </head>
 <body>
+{{ render(controller("App\\Controller\\NavbarController:navbar")) }}
 <div class="container-fluid">
     {% block body %}{% endblock %}
 </div>

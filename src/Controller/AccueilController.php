@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Personne;
+use App\Form\PersonneSupprimerType;
 use App\Form\PersonneType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,5 +64,37 @@ class AccueilController extends AbstractController
             return $this->redirectToRoute("personne");
         }
         return $this->render("personne/modifier.html.twig", ["formulaire" => $form->createView()]);
+    }
+
+    /**
+     * @Route("/personne/supprimer/{id}",name="personne_supprimer")
+     */
+    public function supprimer($id, Request $request){
+
+        $repo = $this->getDoctrine()->getRepository(Personne::class);
+        $personne = $repo->find($id);
+
+        //$form = $this->createForm(PersonneSupprimerType::class, $personne);
+
+        //$form->handleRequest($request);
+
+        /*if ($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($personne);
+            $em->flush();
+
+            return $this->redirectToRoute("personne");
+        }*/
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($personne);
+        $em->flush();
+
+        return $this->redirectToRoute("personne");
+
+        /*return $this->render("personne/supprimer.html.twig", [
+            "formulaire" => $form->createView(),
+            "Personne"=>$personne,
+        ]);*/
     }
 }

@@ -6,4 +6,4 @@ Ce projet à été réalisé par :
 
 - Delamare Timothée B2C1
 
-- Deyris  Antoinne B2C1
+- Deyris  Antoine B2C1

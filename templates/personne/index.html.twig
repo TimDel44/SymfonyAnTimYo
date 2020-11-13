@@ -16,49 +16,110 @@
             padding: 2px 6px;
         }
     </style>
+    <div id="megabloc">
+        <div id="bloc1">
+            <table class="table">
+                <thead>
+                <tr class="table-primary">
+                    <th scope="col">#</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Dépenses</th>
+                    <th scope="col">Actions</th>
 
-    <h1>Antimyo de la soirée *insérez nom de soirée*<i class="fad fa-joint"></i></h1>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Prénom</th>
-            <th scope="col">Nom</th>
-            <th scope="col">Dépenses</th>
-            <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for key, p in Personne %}
+                    <tr class="table-default">
+                        <th scope="row">{{ key+1 }}</th>
+                        <td>{{ p.prenom }}</td>
+                        <td>{{ p.nom }}</td>
+                        <td>{{ p.solde }}</td>
 
-        </tr>
-        </thead>
-        <tbody>
-        {% for key, p in Personne %}
-            <tr>
-                <th scope="row">{{ key+1 }}</th>
-                <td>{{ p.prenom }}</td>
-                <td>{{ p.nom }}</td>
-                <td>{{ p.solde }}</td>
+                        <td><a class="btn btn-sm btn-warning"
+                               href="{{ path("personne_modifier", {"id":p.id}) }}">Editer</a>
+                            <a class="btn btn-sm btn-danger" href="{{ path("personne_supprimer", {"id":p.id}) }}"
+                               onclick="return confirm('Êtes-vous sûr ?')">supprimer</a></td>
 
-                <td><a class="btn btn-sm btn-warning" href="{{ path("personne_modifier", {"id":p.id}) }}">Editer</a>
-                    <a class="btn btn-sm btn-danger" href="{{ path("personne_supprimer", {"id":p.id}) }}" onclick="return confirm('Êtes-vous sûr ?')">supprimer</a></td>
-
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <h1>Prix total de la soirée : {{ Resultat|round(2, 'ceil') }} €</h1>
-    <h2>Moyenne par personne : {{ moyenne|round(2, 'ceil') }} €</h2>
-    <h2>Mouvements à effectuer :</h2>
-    {% if Resultat == 0 %}
-        Aucun <br>
-    {% endif %}
-
-    {% for t in Tableau %}
-        {% if t.solde == moyenne %}
-            {{ t.prenom }} {{ t.nom }} n'a pas besoin de payer.
-        {% elseif t.solde > moyenne %}
-            {{ t.prenom }} {{ t.nom }} doit être remboursé de {{ t.rembours|round(2, 'ceil') }} €
-        {% else %}
-            {{ t.prenom }} {{ t.nom }} doit payer {{ t.dette|round(2, 'ceil') }} €
-        {% endif %}<br>
-    {% endfor %}
-    <a class="btn btn-outline-primary" href="{{ path("personne_ajouter") }}">Ajouter une personne</a>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="bloc2">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Prix Total :</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ Resultat|round(2, 'ceil') }} <i class="fad fa-coins"></i></h4>
+                </div>
+                <!--<h1>Prix total : <br>{{ Resultat }} <i class="fas fa-coins"></i></h1>-->
+            </div>
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-header">Moyenne :</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ moyenne|round(2, 'ceil') }} <i class="fad fa-coins"></i></h4>
+                </div>
+                <!--<h1>Prix total : <br>{{ Resultat }} <i class="fas fa-coins"></i></h1>-->
+            </div>
+            <!--<h2>Moyenne : <br>{{ moyenne }} <i class="fas fa-coins"></i></h2>-->
+        </div>
+        <div id="bloc3">
+            <!--<h2>Mouvements à effectuer :</h2>
+            {% if Resultat == 0 %}
+                Aucun <br>
+            {% endif %}
+            {% for t in Tableau %}
+                {% if t.solde == moyenne %}
+                    {{ t.prenom }} {{ t.nom }} n'a pas besoin de payer.
+                {% elseif t.solde > moyenne %}
+                    {{ t.prenom }} {{ t.nom }} doit être remboursé de {{ t.rembours }}<i class="fas fa-coins"></i>
+                {% else %}
+                    {{ t.prenom }} {{ t.nom }} doit payer {{ t.dette }}<i class="fas fa-coins"></i>
+                {% endif %}<br>
+            {% endfor %}
+        </div>-->
+            <table class="table">
+                <thead>
+                <tr class="table-primary">
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Mouvements</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for t in Tableau %}
+                    <tr class="table-default">
+                        {% if t.solde == moyenne %}
+                            <td>{{ t.prenom }}</td>
+                            <td>{{ t.nom }}</td>
+                            <td> n'a pas besoin de rembourser</td>
+                        {% elseif t.solde > moyenne %}
+                            <td>{{ t.prenom }}</td>
+                            <td>{{ t.nom }}</td>
+                            <td> doit être remboursé de {{ t.rembours|round(2, 'ceil') }} <i class="far fa-euro-sign"></i>
+                                <br>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: {{ t.rembours }}%;"></div>
+                                </div>
+                            </td>
+                        {% else %}
+                            <td>{{ t.prenom }}</td>
+                            <td>{{ t.nom }}</td>
+                            <td> doit payer {{ t.dette|round(2, 'ceil') }} <i class="far fa-euro-sign"></i>
+                                <br>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: {{ t.dette }}%;"></div>
+                                </div>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="optionbloc">
+    <a class="btn btn-outline-primary btn-lg" id="btnoption" href="{{ path("personne_ajouter") }}">Ajouter une personne</a>
+    </div>
 {% endblock %}

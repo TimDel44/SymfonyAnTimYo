@@ -44,8 +44,8 @@
         {% endfor %}
         </tbody>
     </table>
-    <h1>Prix total de la soirée : {{ Resultat }} €</h1>
-    <h2>Moyenne par personne : {{ moyenne }}€</h2>
+    <h1>Prix total de la soirée : {{ Resultat|round(2, 'ceil') }} €</h1>
+    <h2>Moyenne par personne : {{ moyenne|round(2, 'ceil') }} €</h2>
     <h2>Mouvements à effectuer :</h2>
     {% if Resultat == 0 %}
         Aucun <br>
@@ -55,9 +55,9 @@
         {% if t.solde == moyenne %}
             {{ t.prenom }} {{ t.nom }} n'a pas besoin de payer.
         {% elseif t.solde > moyenne %}
-            {{ t.prenom }} {{ t.nom }} doit être remboursé de {{ t.rembours }}€
+            {{ t.prenom }} {{ t.nom }} doit être remboursé de {{ t.rembours|round(2, 'ceil') }} €
         {% else %}
-            {{ t.prenom }} {{ t.nom }} doit payer {{ t.dette }}€
+            {{ t.prenom }} {{ t.nom }} doit payer {{ t.dette|round(2, 'ceil') }} €
         {% endif %}<br>
     {% endfor %}
     <a class="btn btn-outline-primary" href="{{ path("personne_ajouter") }}">Ajouter une personne</a>

@@ -55,9 +55,6 @@ class AccueilController extends AbstractController
             $moyenne=0;
         }
 
-
-
-
         return $this->render('personne/index.html.twig', [
             'Personne' => $personne,
             'Resultat' => $sum,
